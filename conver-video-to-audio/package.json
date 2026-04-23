@@ -1,0 +1,19 @@
+{
+  "name": "convert-video-to-audio",
+  "version": "1.0.0",
+  "description": "Конвертер MP4 в MP3 и разрезание MP3 на сегменты",
+  "main": "convert.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node convert.js",
+    "convert": "node convert.js",
+    "split": "node split-mp3.js"
+  },
+  "keywords": ["mp4", "mp3", "converter", "ffmpeg"],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {}
+}
