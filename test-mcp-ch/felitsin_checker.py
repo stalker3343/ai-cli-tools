@@ -38,23 +38,10 @@ SITE         = "er.center-zdorovie.ru"
 COOKIES: dict[str, str] = {
     "PLAY_SESSION": "889fa5d265f7e0c1a1c1ff4d6102fc41d343726c-host.id=5613b41bdcd41ba17de0e72f",
     "WR_SESSION": (
-        "7226ba9c5e1385f70dbf4521db999a018580a47e2-ZIg4MpqsomcPRJPGI+ZBRmQhJQLQ0f7b5J9lIx4vqM3Kf"
-        "CmttoW6phkbfwMkkUu0k1lUqc8GvQ5GTItZYu4ZZnJkzbu6vy2O8IHH2c27Ro9Qwk0uqaHA46XM/d7rnIkgvSP"
-        "zWPQWougjzS2MxO7bsBqyRXxT//hV4B3wb/sJFb0nBEhjliUSi87JG15pKtKq8UPL+RemEuvm48Y7iZyIkmS49E"
-        "PlpRxrXBOgebKFP1uGOagoZUSKmqWzT4ic5Ji4j8AW2vqJW1OFchRFDry8SRoZkgoe785lmq4j4gcwTTBjAeklV"
-        "pnrz3chbg=="
+        "b9e6458f2559b4448d746e9f19f191fb71da35bb2-8FJrV80YlSFXvBQirqcG97vclBqXgL0iCdnislPxy7dViYHqr09h7dfTA8Uhz56yZ3lJQybT1/Y16xVY5oRe+MCJxGYyjvu2n3ks6wW6PX3MCfODmwP8AkkKGl/fGCceX0Mx/ZbabcYUgUgVvBXMfz82qeL18ZGJxYKJJdMr9jxqmEUhVqjTj6/RPCnoY3tCDjjxI097UmXS++IBtQTMe47WAw+94iRR+yjY0acVog9aLhAH7jp7UkUbJ+n78Hc+nkPX8poZ8XfAhV745SHIgFdMhgF1rHjsIhgrIpwvTfu1qBjNi+pJfSplnQ=="
     ),
     "WR_DETAIL": (
-        "2-pM8/3NLOM6nWsgg3WGwleha4303HrG4z1q0Eijj/S9tDt6gwbJXAz8uTGN8PKcdwmZBPxPBVs30/Z77jiwvP"
-        "ZP/4bXHnEkhDrnO54NKYPrpV8+06glb35HR3H3RM3sDqXIwIkXVUnseOmJMcJ02ABzzyWfbS43gPEjLuxMW/oAn"
-        "nQ1EK+/m/YL9sBrWwm0jHta7U4MGJuMONBVuQ2ATTmaO3KhW9YgbrYsCrV/4YmTjw8oVnypYXm3by54vtCi4Zp"
-        "mUtYdvKIA7zUL5Y+1VuAe+xRB1Zpw7GxNuLInrwMkzYxrsnz7JeIthCwpaGtup4Z8vgj/GtuyxGyA0rSUtWZiA"
-        "cKs71hmYLN0JqHDvS6IlevR6WiJiJYh/6+9lzrOfV1bxt4XL5uYb/e5tkG3et6tNMooJ/MmjJ6o+4y4SI8PhjS"
-        "s2n1kBnkT56WD/EAUFARs6lkPLBVDPue/SWl1bMZulGtFsbgmjNGK6v0z1ZZ84HhyVWDz2FKjrSAR9sH12TeXw"
-        "mry1CZWlxco6q2PwJQOQ03iTyX47qjhgEI9V+umCfCDbbQb0Wc6OTDWVMI3jCLlCzp6sGuWzfoa6TNEE7IaNUb"
-        "Kh70yG5RzKvZQ3zXNr6B8SGBbTroNWf2kmgX8InoIlwDbAH/2Ye+CTNRKjYDWOCYPzheJ/Uk6ULl4DaIxraSRg"
-        "A1xYKRb6ezNQfEv0+zJ6Boc730dyscxZNDxtd3v/fd02e+VSGaGykARSfb2zr8t9ayCo06EPH4EA+zDSoXTn6CZ"
-        "whcR3Omt3nt7UTnZvjU4U="
+        "2-5An+vIxCzeJwR5nmnBVQ0kZHO7rMyofpaBYURlN6odP2vMZ7I27rdlE4Lw9gZ8qkbtcwZ381Pv0FreYiaisEUe5koxBiWR7Dr+gJjku2fxGs82uz5HrusxsL9q5CUGgkoOywoyZgwojQBB34QUafFnG+AcmjPPkFDlGXiLL0gnUi22ds6maBVFRwtvA4HiUyF3KXByEQ6TNC0zQI+AgPS/hMaWHvPasCv1vlconVgRZ05BaiKe+yjf3Zs2aA3LJ3eC5MhhdCjgQFjbTfM213IjKDFJ5ZkqGpvkHxhtmi57x7n5bkJNZxf+XfGVF8bCg9JmaHQiIMh2+D79EeF11y6t6x3uQQgr5eQJ43VspmwZv7kQwAUukX24Q6KgXzUG4Slu2EC3L0q8eNO+0/y96vHcuGtDXFcVCX2rIsvOmnTrbRUanmwbfOZqHdydx/3hbHionhu6z9FwI8FwjU0pKwdp4OcHX2SsGT51j3tNp4YbXofqU2JUnsK5g3nHxF5bqPMtgDc56qvWYR0W16lBTMEQjREK9d/yeYRhxZM6E21mbqPm9J2wooWhaFqOUQ9F5fi7knVumJDAkxEzFnox3bvWUYn/7YOo96oM5mFkeEI2TutTo9T1Bw4Z8u9NomQm27dosnw9gFG6WcfrUU2uLvwBAxPZc2UNpJiXM/cbCa7lq1tUbmynIiT5MGKN5AHmN24bNnPi+bMPGVZdF1DUP7P+80+SrNC80mzkrIklYooRY6KvhjAVX8C/44JfU3Ld0D9qko8Yaq8DkeKwg9Ytzc5zmge/k="
     ),
     "_ym_uid": "1758016976542506873",
     "_ym_d": "1765538382",
@@ -120,9 +107,9 @@ def notify_windows(title: str, body: str) -> None:
 def beep() -> None:
     try:
         import winsound
-        for _ in range(5):
+        for _ in range(500):
             winsound.Beep(1000, 400)
-            time.sleep(0.2)
+            time.sleep(2)
     except Exception:
         pass
 
