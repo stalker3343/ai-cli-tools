@@ -114,7 +114,64 @@ bash scripts/compare_channels.sh --channels "channel1,channel2,channel3" --limit
 
 Таблица: подписчики, средние просмотры, частота публикаций, engagement.
 
+## Воркфлоу "Vue-вакансии" (главный сценарий пользователя)
+
+**Триггер:** «запусти проверку ТГ каналов вакансий», «покажи vue вакансии», «дайджест вакансий»
+
+**Цель:** найти только реальные вакансии с упоминанием Vue / Nuxt / Vuex / Pinia — без резюме, без спама.
+
+**Алгоритм (5 шагов):**
+
+1. Прочитать `config/.env`, взять **все** work-категории (work_hot + work_active + work_slow), объединить каналы в одну строку.
+
+2. Запустить `digest_json.sh` со всеми каналами и периодом `week` (за неделю — Vue-вакансий мало, за день может быть 0):
+   ```bash
+   bash scripts/digest_json.sh \
+     --channels "javascript_jobs_feed,RabotaInMoskva,runello_rus_frontend,FreeWorkFeed,frilancekomfort,rabota_udalenka_frilans,runello_rus_webdevelopment,vakansii_it,devs_it,forfrontend,theypaywell,Getitrussia,runello_rus_javascript,runello_rus_typescript,vacanci,remote_w0rk,it_vacancy_relocation,neiro_ai_vacancy,webfrl" \
+     --period week
+   # → prints path: cache/digest_week.json (или digest_today.json в зависимости от --period)
+   ```
+
+3. Скомпактировать полный JSON (убрать HTML, ограничить текст):
+   ```python
+   import json, re
+   with open('cache/digest_week.json', 'r', encoding='utf-8') as f:
+       data = json.load(f)
+   def strip_html(html):
+       text = re.sub(r'<[^>]+>', '', html)
+       for e, r in [('&#036;','$'),('&#8239;',' '),('&gt;','>'),('&lt;','<'),('&amp;','&'),('&nbsp;',' ')]:
+           text = text.replace(e, r)
+       return re.sub(r'\s+', ' ', text).strip()
+   posts_compact = [{'id':p['id'],'channel':p['channel'],'date':p['date'],'views':p.get('views',''),'reactions':p.get('reactions',''),'text':strip_html(p.get('text',''))[:600]} for p in data['posts']]
+   compact = {'posts': posts_compact, 'channels': data.get('channels', {})}
+   with open('cache/digest_week_compact.json', 'w', encoding='utf-8') as f:
+       json.dump(compact, f, ensure_ascii=False)
+   ```
+
+4. Запустить фильтр Vue-вакансий:
+   ```bash
+   python scripts/filter_vacancies.py cache/digest_week_compact.json
+   # → выводит путь: cache/vacancies_vue_YYYY-MM-DD.md
+   ```
+
+5. Прочитать markdown-файл и вывести содержимое пользователю.
+
+**Что фильтруется как НЕ вакансия:**
+- Резюме: текст содержит ` Резюме `, `📃 Резюме`, `Лучшие резюме`, `Резюме за `, `Обзор за `
+- Спам: `90% людей теряют`, `папку с полезными каналами`, `Подработка на Авито`
+- Мусор: `каналы в Max`, `пятница`, пустые посты
+
+**Что считается Vue-вакансией:** текст содержит Vue, Nuxt, Vuex, Pinia (в любом регистре, с .js или без).
+
+**Скрипт:** `scripts/filter_vacancies.py` — принимает compact JSON, пишет `cache/vacancies_vue_YYYY-MM-DD.md`
+
+**Важно:** если за сегодня 0 Vue-вакансий — это нормально. Запусти с `--period week`.
+
+---
+
 ## React-артифакт для дайджеста
+
+**Примечание:** React-артифакт рендерится только в claude.ai (браузер). В VS Code extension он показывается как код. Для вакансий используй markdown-файл (воркфлоу выше) — удобнее.
 
 При запросе дайджеста — **отображай результаты как React-артифакт** (лента карточек).
 

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(python scripts/filter_vacancies.py cache/digest_week_compact.json)"
+    ]
+  }
+}
