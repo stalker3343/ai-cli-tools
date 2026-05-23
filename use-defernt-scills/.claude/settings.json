@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "Bash(python -c ' *)",
-      "Bash(python scripts/filter_vacancies.py cache/digest_week_compact.json)"
+      "Bash(python scripts/filter_vacancies.py cache/digest_week_compact.json)",
+      "Bash(bash .claude/skills/telegram-channel-parser/scripts/digest_json.sh --channels runello_rus_webdevelopment,vakansii_it,devs_it,forfrontend,theypaywell,Getitrussia,runello_rus_javascript,runello_rus_typescript,vacanci,remote_w0rk,it_vacancy_relocation,neiro_ai_vacancy,webfrl --period 30)",
+      "Bash(python3 -c ' *)",
+      "Bash(py --version)",
+      "Bash(python .claude/skills/telegram-channel-parser/scripts/filter_vacancies.py .claude/skills/telegram-channel-parser/cache/digest_30_compact.json)",
+      "Bash(python scripts/filter_vacancies.py cache/digest_30_compact.json)",
+      "Edit(/.claude/skills/telegram-channel-parser/**)",
+      "Bash(python scripts/run_vue_search.py --period 14)",
+      "Bash(where bash *)",
+      "Bash(python scripts/filter_vacancies.py cache/digest_14_compact.json)"
     ]
   }
 }

@@ -29,15 +29,18 @@ EXCLUDE_PATTERNS = [
     'каналы в Max',
 ]
 
-# Vue.js и смежные технологии — все варианты написания
-VUE_KEYWORDS = [
-    r'\bVue\b', r'\bVue\.js\b', r'\bVueJS\b', r'\bVuejs\b',
-    r'\bNuxt\b', r'\bNuxt\.js\b', r'\bNuxtJS\b',
-    r'\bVuex\b', r'\bPinia\b',
-    r'\bvue\b', r'\bnuxt\b',
-]
+# Vue.js и смежные технологии — все варианты написания, включая Vue3/Nuxt3
+VUE_RE = re.compile(
+    r'\bVue(?:\.js?|js|\d+)?\b|\bNuxt(?:\.js?|js|\d+)?\b|\bVuex\b|\bPinia\b',
+    re.IGNORECASE,
+)
 
-VUE_RE = re.compile('|'.join(VUE_KEYWORDS), re.IGNORECASE)
+
+def strip_html(html):
+    text = re.sub(r'<[^>]+>', ' ', html)  # space not empty — keeps word boundaries
+    for e, r in [('&#036;','$'),('&#8239;',' '),('&gt;','>'),('&lt;','<'),('&amp;','&'),('&nbsp;',' ')]:
+        text = text.replace(e, r)
+    return re.sub(r'\s+', ' ', text).strip()
 
 
 def is_vacancy(post):
