@@ -11,7 +11,8 @@
       "Edit(/.claude/skills/telegram-channel-parser/**)",
       "Bash(python scripts/run_vue_search.py --period 14)",
       "Bash(where bash *)",
-      "Bash(python scripts/filter_vacancies.py cache/digest_14_compact.json)"
+      "Bash(python scripts/filter_vacancies.py cache/digest_14_compact.json)",
+      "Bash(python scripts/run_vue_search.py --period 7)"
     ]
   }
 }
