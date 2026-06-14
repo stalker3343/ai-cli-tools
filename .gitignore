@@ -38,3 +38,36 @@ libs/icons/src/index.ts
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
 .tsbuild
+
+# Python cache/runtime
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local env/secrets
+.env
+.env.*
+!.env.example
+
+# Telegram credentials, sessions, and private exports
+get-telegram-data/config.js
+get-telegram-data/src/session.txt
+get-telegram-data/src/data/
+get-telegram-data/exports/
+get-telegram-data/mess.json
+get-telegram-data/messages.txt
+crear-tg-log/ChatExport_*/
+
+# Generated skill cache
+use-defernt-scills/.claude/skills/telegram-channel-parser/cache/
+
+# Local media/test artifacts
+split-video/*.mp4
+split-video/*.m4a
+split-video/some-test/*.mp4
+
+# Runtime logs captured as txt
+test-mcp-ch/*_log.txt
+test-mcp-ch/*_stdout.txt

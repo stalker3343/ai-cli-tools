@@ -1,0 +1,16 @@
+{
+  "name": "telegram-chat-parser",
+  "version": "1.0.0",
+  "description": "Парсер приватных чатов Telegram",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "export-chat": "node export-chat.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "input": "^1.0.1",
+    "telegram": "^2.26.22"
+  }
+}

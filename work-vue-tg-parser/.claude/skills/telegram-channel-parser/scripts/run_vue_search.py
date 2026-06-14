@@ -85,6 +85,9 @@ def strip_html(html: str) -> str:
 
 def find_bash() -> str:
     if platform.system() == "Windows":
+        git_bash = r"C:\Program Files\Git\bin\bash.exe"
+        if os.path.exists(git_bash):
+            return git_bash
         git_bash = r"C:\Program Files\Git\usr\bin\bash.exe"
         if os.path.exists(git_bash):
             return git_bash
@@ -132,7 +135,22 @@ def compact(json_path: Path) -> dict:
     return {'posts': posts, 'channels': data.get('channels', {})}
 
 
-def filter_and_write(data: dict, output_path: Path) -> int:
+def filter_date_range(data: dict, from_date: str = '', to_date: str = '') -> dict:
+    if not from_date and not to_date:
+        return data
+
+    filtered = []
+    for p in data['posts']:
+        post_date = p.get('date', '')[:10]
+        if from_date and post_date < from_date:
+            continue
+        if to_date and post_date > to_date:
+            continue
+        filtered.append(p)
+    return {**data, 'posts': filtered}
+
+
+def filter_and_write(data: dict, output_path: Path, date_label: str = '') -> int:
     seen: set = set()
     results = []
     for p in sorted(data['posts'], key=lambda x: x['date'], reverse=True):
@@ -145,12 +163,16 @@ def filter_and_write(data: dict, output_path: Path) -> int:
             results.append(p)
 
     today = datetime.date.today().strftime('%Y-%m-%d')
+    title_date = date_label or today
     lines = [
-        f'# Vue-вакансии за {today}',
+        f'# Vue-вакансии за {title_date}',
         '',
         f'Найдено: **{len(results)}** Vue/Nuxt вакансий',
         '',
     ]
+    if date_label:
+        lines.insert(1, f'Period: {date_label}')
+        lines.insert(2, '')
     if not results:
         lines.append('_Вакансий с упоминанием Vue/Nuxt не найдено._')
     else:
@@ -170,8 +192,10 @@ def filter_and_write(data: dict, output_path: Path) -> int:
 
 def main():
     parser = argparse.ArgumentParser(description='Find Vue vacancies in Telegram channels')
-    parser.add_argument('--period', type=int, default=14, help='Days to look back (default: 14)')
+    parser.add_argument('--period', type=int, default=None, help='Days to look back (default: 14, or computed from --from-date)')
     parser.add_argument('--channels', default='', help='Comma-separated channels (default: from config/.env)')
+    parser.add_argument('--from-date', default='', help='Inclusive start date, YYYY-MM-DD')
+    parser.add_argument('--to-date', default='', help='Inclusive end date, YYYY-MM-DD')
     args = parser.parse_args()
 
     if args.channels:
@@ -183,16 +207,50 @@ def main():
         print("ERROR: no channels. Pass --channels or configure config/.env", file=sys.stderr)
         sys.exit(1)
 
-    channels_str = ','.join(channels)
-    print(f"Channels: {len(channels)}, period: {args.period} days", file=sys.stderr)
+    if args.from_date:
+        try:
+            start_date = datetime.date.fromisoformat(args.from_date)
+        except ValueError:
+            print("ERROR: --from-date must be YYYY-MM-DD", file=sys.stderr)
+            sys.exit(1)
+    else:
+        start_date = None
 
-    json_path = run_digest(channels_str, args.period)
+    if args.to_date:
+        try:
+            datetime.date.fromisoformat(args.to_date)
+        except ValueError:
+            print("ERROR: --to-date must be YYYY-MM-DD", file=sys.stderr)
+            sys.exit(1)
+
+    if args.from_date and args.to_date and args.from_date > args.to_date:
+        print("ERROR: --from-date must be before or equal to --to-date", file=sys.stderr)
+        sys.exit(1)
+
+    period = args.period
+    if period is None:
+        period = 14
+        if start_date:
+            period = max((datetime.date.today() - start_date).days, 0)
+
+    channels_str = ','.join(channels)
+    print(f"Channels: {len(channels)}, period: {period} days", file=sys.stderr)
+
+    json_path = run_digest(channels_str, period)
     data = compact(json_path)
+    data = filter_date_range(data, args.from_date, args.to_date)
     print(f"Posts fetched: {len(data['posts'])}", file=sys.stderr)
 
     today = datetime.date.today().strftime('%Y-%m-%d')
-    output_path = CACHE_DIR / f'vacancies_vue_{today}.md'
-    count = filter_and_write(data, output_path)
+    range_suffix = ''
+    date_label = ''
+    if args.from_date or args.to_date:
+        from_label = args.from_date or 'beginning'
+        to_label = args.to_date or 'today'
+        range_suffix = f'_{from_label}_to_{to_label}'
+        date_label = f'{from_label} - {to_label}'
+    output_path = CACHE_DIR / f'vacancies_vue_{today}{range_suffix}.md'
+    count = filter_and_write(data, output_path, date_label)
     print(f"Vue vacancies found: {count}", file=sys.stderr)
 
     print(str(output_path))
